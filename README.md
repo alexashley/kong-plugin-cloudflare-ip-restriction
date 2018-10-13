@@ -12,6 +12,7 @@ Instead, this plugin supports reading IP addresses from multiple headers to dete
 It allows for dynamic changes without the need to re-deploy Kong or touch NGINX config; for example, this might be useful while migrating between WAFs.  
 
 Other features:
+    
     - Installing the plugin globally will provide IP whitelisting for all services/routes, with individual plugin installs extending the global plugin's whitelist by default. 
     - The whitelist configuration allows for a description of the IP address. 
 
