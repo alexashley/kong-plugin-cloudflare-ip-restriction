@@ -80,7 +80,6 @@ local function get_cidr_whitelist()
     local global_plugin_whitelist = get_global_plugin_whitelist()
 
     if global_plugin_whitelist then
-        kong.log.info("GOT GLOBAL WHITELIST")
         for _, ip_config in pairs(global_plugin_whitelist) do
             whitelist_ips[#whitelist_ips+1] = ip_config.ip
         end
