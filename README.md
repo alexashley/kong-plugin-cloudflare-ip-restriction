@@ -20,7 +20,7 @@ Other features:
 
 This plugin assumes that Kong is only reachable via a trusted proxy. Spoofing a header is trivial and this plugin provides no additional safety mechanisms.
 
-### install
+## install
 
 `luarocks install kong-plugin-cloudflare-ip-restriction`
 
