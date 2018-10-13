@@ -13,14 +13,21 @@ It allows for dynamic changes without the need to re-deploy Kong or touch NGINX 
 
 Other features:
     
-    - Installing the plugin globally will provide IP whitelisting for all services/routes, with individual plugin installs extending the global plugin's whitelist by default. 
-    - The whitelist configuration allows for a description of the IP address. 
+- Installing the plugin globally will provide IP whitelisting for all services/routes, with individual plugin installs extending the global plugin's whitelist by default. 
+- The whitelist configuration allows for a description of the IP address. 
 
 ## security concerns
 
 This plugin assumes that Kong is only reachable via a trusted proxy. Spoofing a header is trivial and this plugin provides no additional safety mechanisms.
 
+### install
+
+`luarocks install kong-plugin-cloudflare-ip-restriction`
+
+`export KONG_CUSTOM_PLUGINS=cloudflare-ip-restriction`
+
 ## configuration
+
 
 | name                        | description                                                                                              | default                |
 |-----------------------------|----------------------------------------------------------------------------------------------------------|------------------------|
@@ -28,6 +35,30 @@ This plugin assumes that Kong is only reachable via a trusted proxy. Spoofing a 
 | `override_global_whitelist` | Don't use the global plugin's whitelist when determining if the IP is allowed.                           | false                  |
 | `client_ip_headers`         | An array of headers to check for IP addresses.                                                           | `{"CF-Connecting-IP"}` |
 
+
+By default, the plugin is configured to be used with Cloudflare; if you're a Cloudfare enterprise customer, you may wish to change the default `client_ip_headers` to include [`True-Client-IP`](https://support.cloudflare.com/hc/en-us/articles/206776727-What-is-True-Client-IP-).
+
+Sample installation:
+
+```shell
+
+CONFIG=$(cat <<-END
+    {
+        "name": "cloudflare-ip-restriction",
+        "config": {
+            "whitelist": [{
+                "ip": "5.5.5.5",
+                "description": "Corporate LAN"
+            }]
+        }
+    }
+END
+)
+
+curl -s ${KONG_ADMIN_API}/plugins -H "Content-Type: application/json" -d ${CONFIG}
+```
+
 ## development
 
-`docker-compose up` to start Kong 0.14.1 & Postgres.
+- Use`docker-compose up` to start Kong 0.14.1 & Postgres.
+- A simple Terraform config is included for the sake of manual testing. It requires [`terraform-provider-kong`](https://github.com/alexashley/terraform-provider-kong). 
