@@ -2,6 +2,11 @@
 
 A plugin for human-friendly IP whitelisting for Kong installs behind Cloudflare (or another trusted proxy).
 
+# WARNING
+
+I have **not** used this in a production environment. I mostly wrote the plugin to play around with Kong's PDK.
+I would recommend using Cloudflare's [lockdown rules](https://support.cloudflare.com/hc/en-us/articles/115001595131-How-do-I-Lockdown-URLs-in-Cloudflare-) and then using Kong's own ip restriction plugin to only allow traffic from Cloudflare
+
 ## comparision to `ip-restriction` plugin
 
 Kong's built-in `ip-restriction` plugin uses `ngx.var.binary_remote_addr` to apply IP restrictions; 
@@ -21,8 +26,6 @@ Other features:
 This plugin assumes that Kong is only reachable via a trusted proxy. Spoofing a header is trivial and this plugin provides no additional safety mechanisms.
 
 ## install
-
-`luarocks install kong-plugin-cloudflare-ip-restriction`
 
 `export KONG_CUSTOM_PLUGINS=cloudflare-ip-restriction`
 
